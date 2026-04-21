@@ -223,7 +223,7 @@ describe("Bridge Integration", () => {
         expect(ws.readyState).toBe(WebSocket.OPEN);
 
         ws.close();
-        await new Promise(resolve => setTimeout(resolve, 100));
+        await new Promise(resolve => setTimeout(resolve, 10));
       },
       TEST_TIMEOUT,
     );
@@ -251,12 +251,12 @@ describe("Bridge Integration", () => {
         });
 
         // Wait for client_connect event
-        await new Promise(resolve => setTimeout(resolve, 100));
+        await new Promise(resolve => setTimeout(resolve, 10));
 
         ws.close();
 
         // Wait for client_disconnect event
-        await new Promise(resolve => setTimeout(resolve, 100));
+        await new Promise(resolve => setTimeout(resolve, 10));
 
         expect(events.some(e => e.type === "client_connect")).toBe(true);
         expect(events.some(e => e.type === "client_disconnect")).toBe(true);
@@ -533,7 +533,7 @@ describe("Bridge Integration", () => {
         });
 
         // Wait for client_connect
-        await new Promise(resolve => setTimeout(resolve, 100));
+        await new Promise(resolve => setTimeout(resolve, 10));
 
         const commandId = "test-cmd-4";
         const command = {
@@ -633,7 +633,7 @@ describe("Bridge Integration", () => {
         });
 
         // Wait for event propagation
-        await new Promise(resolve => setTimeout(resolve, 100));
+        await new Promise(resolve => setTimeout(resolve, 10));
 
         // Re-render - should show client
         const updatedRender = terminalView.render();
@@ -859,7 +859,7 @@ describe("Bridge Integration", () => {
         });
 
         // Wait for client registration with EventBus
-        await new Promise(resolve => setTimeout(resolve, 100));
+        await new Promise(resolve => setTimeout(resolve, 10));
 
         // Listen for event messages from the server
         const receivedEvents: unknown[] = [];
@@ -888,7 +888,7 @@ describe("Bridge Integration", () => {
         agentStartHandler?.({ type: "agent_start", sessionId: "test-session" });
 
         // Wait for event delivery
-        await new Promise(resolve => setTimeout(resolve, 100));
+        await new Promise(resolve => setTimeout(resolve, 10));
 
         // Verify the bridge emits the normalized lifecycle payload.
         expect(receivedEvents.length).toBeGreaterThanOrEqual(1);
@@ -923,11 +923,11 @@ describe("Bridge Integration", () => {
         });
 
         // Wait for registration
-        await new Promise(resolve => setTimeout(resolve, 100));
+        await new Promise(resolve => setTimeout(resolve, 10));
 
         // Disconnect
         ws.close();
-        await new Promise(resolve => setTimeout(resolve, 100));
+        await new Promise(resolve => setTimeout(resolve, 10));
 
         // Verify client count is 0
         expect(controller!.getClients()).toHaveLength(0);
@@ -1079,7 +1079,7 @@ describe("Bridge Integration", () => {
         process.emit("SIGINT");
 
         // Wait for async shutdown
-        await new Promise(resolve => setTimeout(resolve, 200));
+        await new Promise(resolve => setTimeout(resolve, 20));
 
         expect(events.some(e => e.type === "sigint_received")).toBe(true);
         expect(events.some(e => e.type === "shutdown_complete")).toBe(true);
@@ -1117,7 +1117,7 @@ describe("Bridge Integration", () => {
         });
 
         // Wait for client_connect event
-        await new Promise(resolve => setTimeout(resolve, 100));
+        await new Promise(resolve => setTimeout(resolve, 10));
 
         // Send a command that will succeed
         ws.send(
@@ -1128,7 +1128,7 @@ describe("Bridge Integration", () => {
         );
 
         // Wait for command_received event
-        await new Promise(resolve => setTimeout(resolve, 100));
+        await new Promise(resolve => setTimeout(resolve, 10));
 
         // Note: command_error is only emitted on dispatch exceptions, not for
         // commands that return error responses (like unsupported commands)
@@ -1136,7 +1136,7 @@ describe("Bridge Integration", () => {
 
         // Disconnect client
         ws.close();
-        await new Promise(resolve => setTimeout(resolve, 100));
+        await new Promise(resolve => setTimeout(resolve, 10));
 
         // Stop the bridge
         await controller.stop();

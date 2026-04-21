@@ -6,6 +6,26 @@ export default defineConfig({
   build: {
     outDir: "../../web-dist",
     emptyOutDir: true,
+    target: "esnext",
+    reportCompressedSize: false,
+    rollupOptions: {
+      output: {
+        manualChunks(id) {
+          if (id.includes("marked") || id.includes("dompurify")) {
+            return "markdown";
+          }
+          if (id.includes("shiki")) {
+            return "shiki";
+          }
+          if (id.includes("lucide-vue-next")) {
+            return "icons";
+          }
+          if (id.includes("vue/dist") || id === "vue") {
+            return "vue";
+          }
+        },
+      },
+    },
   },
   server: {
     proxy: {
